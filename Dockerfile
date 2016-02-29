@@ -36,10 +36,12 @@ RUN sed -e 's/;daemonize = yes/daemonize = no/' -i /etc/php5/fpm/php-fpm.conf \
 ADD supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 ADD vhost.conf /etc/nginx/sites-available/default
 
-RUN usermod -u 1000 www-data
-
 VOLUME /var/www
 WORKDIR /var/www
+
+RUN usermod -u 1000 www-data
+RUN chown -R www-data:www-data /var/www/app/cache
+RUN chown -R www-data:www-data /var/www/app/logs
 
 EXPOSE 80
 

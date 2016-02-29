@@ -37,9 +37,12 @@ ADD supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 ADD vhost.conf /etc/nginx/sites-available/default
 
 RUN usermod -u 1000 www-data
+RUN usermod -a -G users www-data
 
 VOLUME /var/www
 WORKDIR /var/www
+
+RUN chown -R www-data:www-data /var/www
 
 EXPOSE 80
 

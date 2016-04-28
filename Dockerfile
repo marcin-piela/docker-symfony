@@ -33,6 +33,13 @@ RUN sed -e 's/;daemonize = yes/daemonize = no/' -i /etc/php5/fpm/php-fpm.conf \
     && echo "opcache.enable_cli=1" >> /etc/php5/mods-available/opcache.ini \
     && echo "\ndaemon off;" >> /etc/nginx/nginx.conf
 
+RUN sed -i  -e "s/\(post_max_size =\).*/\1 50M/g" /etc/php5/cli/php.ini
+RUN sed -i  -e "s/\(upload_max_filesize =\).*/\1 50M/g" /etc/php5/cli/php.ini
+RUN sed -i  -e "s/\(max_execution_time =\).*/\1 300/g" /etc/php5/cli/php.ini
+RUN sed -i  -e "s/\(post_max_size =\).*/\1 50M/g" /etc/php5/fpm/php.ini
+RUN sed -i  -e "s/\(upload_max_filesize =\).*/\1 50M/g" /etc/php5/fpm/php.ini
+RUN sed -i  -e "s/\(max_execution_time =\).*/\1 300/g" /etc/php5/fpm/php.ini
+
 ADD supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 ADD vhost.conf /etc/nginx/sites-available/default
 

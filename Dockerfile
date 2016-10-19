@@ -34,12 +34,12 @@ RUN sed -e 's/;daemonize = yes/daemonize = no/' -i /etc/php/7.0/fpm/php-fpm.conf
     && sed -e 's/;listen\.group/listen.group/' -i /etc/php/7.0/fpm/pool.d/www.conf \
 	&& sed -e 's/listen = \/run\/php\/php7.0-fpm.sock/;listen = \/run\/php\/php7.0-fpm.sock/' -i /etc/php/7.0/fpm/pool.d/www.conf \
 	&& sed -i "/pid = .*/c\;pid = /run/php/php7.0-fpm.pid" /etc/php/7.0/fpm/php-fpm.conf \
+	&& echo "listen = 127.0.0.1:9000" >> /etc/php/7.0/fpm/pool.d/www.conf \
 	&& sed -i "/error_log = .*/c\error_log = /proc/self/fd/2" /etc/php/7.0/fpm/php-fpm.conf \
     && echo "opcache.enable=1" >> /etc/php/7.0/mods-available/opcache.ini \
     && echo "opcache.enable_cli=1" >> /etc/php/7.0/mods-available/opcache.ini \
 	&& echo "date.timezone = UTC" >> /etc/php/7.0/cli/php.ini \
-	&& echo "date.timezone = UTC" >> /etc/php/7.0/fpm/php.ini \
-	&& echo "\ndaemon off;" >> /etc/nginx/nginx.conf
+	&& echo "date.timezone = UTC" >> /etc/php/7.0/fpm/php.ini
 
 RUN sed -i  -e "s/\(post_max_size =\).*/\1 50M/g" /etc/php/7.0/cli/php.ini
 RUN sed -i  -e "s/\(upload_max_filesize =\).*/\1 50M/g" /etc/php/7.0/cli/php.ini

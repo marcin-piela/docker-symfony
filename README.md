@@ -2,10 +2,6 @@
 
 A Dockerfile for [Symfony](http://symfony.com/) Web container: Nginx, PHP-FPM…
 
-**This configuration is built for development. You can use it in production at your own risks !**
-
-[Don't know Docker yet ?](http://blog.vincent-chalamon.fr/docker/)
-
 ## Installation
 
 Install [Docker](https://www.docker.com/) ([Boot2docker](http://boot2docker.io/) or [Kitematic](https://kitematic.com/) for OS X & Windows).

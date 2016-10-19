@@ -28,13 +28,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       supervisor \
     && rm -rf /var/lib/apt/lists/*
 
-# Configure PHP-FPM & Nginx
-RUN sed -e 's/;daemonize = yes/daemonize = no/' -i /etc/php7.0/fpm/php-fpm.conf \
-    && sed -e 's/;listen\.owner/listen.owner/' -i /etc/php7.0/fpm/pool.d/www.conf \
-    && sed -e 's/;listen\.group/listen.group/' -i /etc/php7.0/fpm/pool.d/www.conf \
-    && echo "opcache.enable=1" >> /etc/php7.0/mods-available/opcache.ini \
-    && echo "opcache.enable_cli=1" >> /etc/php7.0/mods-available/opcache.ini \
-    && echo "\ndaemon off;" >> /etc/nginx/nginx.conf
+# Configure PHP-FPM
+RUN sed -e 's/;daemonize = yes/daemonize = no/' -i /etc/php/7.0/fpm/php-fpm.conf \
+    && sed -e 's/;listen\.owner/listen.owner/' -i /etc/php/7.0/fpm/pool.d/www.conf \
+    && sed -e 's/;listen\.group/listen.group/' -i /etc/php/7.0/fpm/pool.d/www.conf \
+	&& sed -e 's/listen = \/run\/php\/php7.0-fpm.sock/;listen = \/run\/php\/php7.0-fpm.sock/' -i /etc/php/7.0/fpm/pool.d/www.conf \
+	&& sed -i "/pid = .*/c\;pid = /run/php/php7.0-fpm.pid" /etc/php/7.0/fpm/php-fpm.conf \
+	&& sed -i "/error_log = .*/c\error_log = /proc/self/fd/2" /etc/php/7.0/fpm/php-fpm.conf \
+	&& echo "listen = 0.0.0.0:9000" >> /etc/php/7.0/fpm/pool.d/www.conf \
+    && echo "opcache.enable=1" >> /etc/php/7.0/mods-available/opcache.ini \
+    && echo "opcache.enable_cli=1" >> /etc/php/7.0/mods-available/opcache.ini \
+	&& echo "date.timezone = UTC" >> /etc/php/7.0/cli/php.ini \
+	&& echo "date.timezone = UTC" >> /etc/php/7.0/fpm/php.ini
 
 RUN sed -i  -e "s/\(post_max_size =\).*/\1 50M/g" /etc/php7.0/cli/php.ini
 RUN sed -i  -e "s/\(upload_max_filesize =\).*/\1 50M/g" /etc/php7.0/cli/php.ini

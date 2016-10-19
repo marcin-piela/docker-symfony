@@ -1,6 +1,6 @@
 FROM debian:jessie
 
-MAINTAINER Vincent Chalamon <vincentchalamon@gmail.com>
+MAINTAINER Marcin Piela
 
 ENV DEBIAN_FRONTEND noninteractive
 

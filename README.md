@@ -22,7 +22,7 @@ Create `docker-compose.yml` file as following:
 
 ```yml
 web:
-    image: marcinpiela/docker-symfony
+    image: marcinpiela/docker-symfony:php7
     volumes:
         - .:/var/www
     net: "host"
@@ -48,7 +48,7 @@ Let's imagine we'll run Nginx on port 8888, and MySql on port 3386. Update your 
 
 ```yml
 web:
-    image: marcinpiela/docker-symfony
+    image: marcinpiela/docker-symfony:php7
     ports:
         - 8888:80
     volumes:
